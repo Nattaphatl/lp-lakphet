@@ -1,0 +1,166 @@
+<div class="topbar">
+  <span>📍 ที่อยู่ร้าน: (ใส่ที่อยู่จริง) &nbsp; ✉️ info&#64;lplakphet.example</span>
+  <span class="grow"></span>
+  <a href="#contact">📞 Hotline 0XX-XXX-XXXX</a>
+  <a href="#contact">Facebook</a><a href="#contact">TikTok</a><a href="#contact">LINE</a>
+  <button (click)="notify('เวอร์ชันภาษาอังกฤษกำลังจัดทำ')">TH | EN</button>
+</div>
+
+<header class="head">
+  <a class="brand" href="#top"><img src="logo.svg" alt="" class="logo-s"><span>LP LAKPHET</span></a>
+  <select class="cat-select" aria-label="หมวดหมู่สินค้า" (change)="pick($any($event.target).value)">
+    <option value="all">ทุกหมวดหมู่</option>
+    @for (c of categories; track c.id) { <option [value]="c.id">{{ c.th }}</option> }
+  </select>
+  <input class="search" type="search" placeholder="🔍 ค้นหาสินค้า…" aria-label="ค้นหาสินค้า"
+         [value]="query()" (input)="query.set($any($event.target).value)">
+  <button class="cart-btn" (click)="cartOpen.set(true)" aria-label="เปิดตะกร้าสินค้า">🛍️ <span class="hide-sm">ตะกร้า</span> @if (count() > 0) { <b>{{ count() }}</b> }</button>
+  <button class="burger" (click)="menuOpen.set(!menuOpen())" aria-label="เมนู">☰</button>
+</header>
+
+<nav class="menu" [class.open]="menuOpen()" aria-label="เมนูหลัก" (click)="menuOpen.set(false)">
+  <a href="#top">หน้าแรก</a>
+  <div class="has-sub">
+    <a href="#about">เกี่ยวกับเรา ▾</a>
+    <div class="sub"><a href="#about">ข้อมูลร้าน</a><a href="#why">วิสัยทัศน์และบริการ</a><a href="#brands">แบรนด์ที่เราคัดสรร</a></div>
+  </div>
+  <a href="#shop">ร้านค้า</a><a href="#news">ข่าวสารและกิจกรรม</a>
+  <a href="#contact">ร่วมงานกับเรา</a><a href="#contact">ติดต่อเรา</a><a class="cta" href="#brands">เสนอสินค้า</a>
+</nav>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-text">
+      <img class="logo" src="logo.svg" alt="โลโก้ LP LAKPHET">
+      <h1><em>LP</em> LAKPHET</h1>
+      <p class="script">More Than Just a Shop</p>
+      <p>ครบทุกไลฟ์สไตล์ ในที่เดียว ค้าปลีก-ค้าส่ง พร้อมส่ง</p>
+      <ul class="chips">
+        @for (c of categories; track c.id) { <li><button (click)="pick(c.id)">{{ c.icon }} {{ c.th }}</button></li> }
+      </ul>
+    </div>
+    <div class="stack" aria-hidden="true">
+      <div class="panel p1">👜</div><div class="panel p2">👕</div><div class="panel p3">🧁</div><div class="panel p4">📚</div>
+    </div>
+  </section>
+
+  <section id="about" class="sec about">
+    <div>
+      <p class="kicker">เกี่ยวกับเรา</p>
+      <h2>ยินดีต้อนรับสู่ LP LAKPHET</h2>
+      <p>ร้านค้าปลีกและค้าส่งที่รวมทุกความชอบไว้ในที่เดียว ทั้งกระเป๋า เสื้อผ้า หนังสือ ของใช้ และเบเกอรี่โฮมเมด เราคัดสรรสินค้าคุณภาพ ในสไตล์วัยรุ่นทันสมัย เพื่อให้ทุกวันของคุณพิเศษกว่าเดิม</p>
+      <ul class="ticks">
+        <li>สินค้าครบครัน คัดสรรคุณภาพ</li><li>ราคาเป็นมิตร คุ้มค่าทุกรายการ</li><li>บริการสะดวก รวดเร็ว ใส่ใจทุกการซื้อ</li>
+      </ul>
+      <a class="btn" href="#shop">เลือกชมสินค้า</a>
+    </div>
+    <div class="collage" aria-hidden="true"><span>👜</span><span>🧁</span><span>👕</span><span>📖</span></div>
+  </section>
+
+  <section id="why" class="sec alt">
+    <p class="kicker">บริการของเรา</p>
+    <h2>ทำไมคุณควรเลือก LP LAKPHET?</h2>
+    <div class="why-grid">
+      @for (w of why; track w.t) { <article><span>{{ w.icon }}</span><h3>{{ w.t }}</h3><p>{{ w.d }}</p></article> }
+    </div>
+  </section>
+
+  <section id="brands" class="sec brands">
+    <div>
+      <h2>เราคัดสรรแบรนด์และสินค้าจากผู้ผลิตที่เชื่อถือได้</h2>
+      <p>สนใจนำเสนอสินค้าใหม่ หรือเป็นตัวแทนจำหน่ายร่วมกับเรา ฝากข้อมูลไว้ได้เลย</p>
+    </div>
+    <a class="btn dark" href="#contact">เสนอสินค้า</a>
+  </section>
+
+  <section id="shop" class="sec">
+    <div class="shop-bar">
+      <h2>สินค้าทั้งหมด</h2>
+      <div class="seg" role="group" aria-label="ประเภทราคา">
+        <button [class.sel]="mode() === 'retail'" (click)="mode.set('retail')">ราคาปลีก</button>
+        <button [class.sel]="mode() === 'wholesale'" (click)="mode.set('wholesale')">ราคาส่ง (ลด 15%)</button>
+      </div>
+    </div>
+    <div class="tabs" role="tablist">
+      <button role="tab" [class.sel]="active() === 'all'" (click)="active.set('all')">ทั้งหมด</button>
+      @for (c of categories; track c.id) { <button role="tab" [class.sel]="active() === c.id" (click)="active.set(c.id)">{{ c.icon }} {{ c.th }}</button> }
+    </div>
+    <div class="grid">
+      @for (p of visible(); track p.id) {
+        <article class="card">
+          <div class="pic" [style.--a]="p.tone[0]" [style.--b]="p.tone[1]"><span>{{ p.emoji }}</span>@if (p.tag) { <i>{{ p.tag }}</i> }</div>
+          <h4>{{ p.name }}</h4>
+          <div class="row">
+            <strong>฿{{ price(p) | number }}</strong>
+            <button (click)="add(p)" [attr.aria-label]="'เพิ่ม ' + p.name + ' ลงตะกร้า'">＋ หยิบใส่ตะกร้า</button>
+          </div>
+        </article>
+      } @empty { <p class="empty">ไม่พบสินค้าที่ตรงกับ “{{ query() }}” ลองค้นหาด้วยคำอื่น หรือเลือกหมวดหมู่</p> }
+    </div>
+  </section>
+
+  <section class="sec alt">
+    <h2>โปรโมชั่นประจำเดือน</h2>
+    <div class="promos">
+      @for (m of promos; track m.t) {
+        <article [style.--a]="m.tone[0]" [style.--b]="m.tone[1]"><span>{{ m.emoji }}</span><div><h3>{{ m.t }}</h3><p>{{ m.d }}</p></div></article>
+      }
+    </div>
+  </section>
+
+  <section id="news" class="sec">
+    <h2>ข่าวสารและกิจกรรมล่าสุด</h2>
+    <div class="news">
+      @for (n of news; track n.t) {
+        <article><div class="nimg">{{ n.emoji }}</div><small>{{ n.tag }}</small><h3>{{ n.t }}</h3><time>{{ n.date }}</time></article>
+      }
+    </div>
+  </section>
+
+  <section id="contact" class="sec contact">
+    <h2>ติดต่อเรา</h2>
+    <div class="c-grid">
+      <a href="tel:0000000000">📞<b>โทรศัพท์</b>0XX-XXX-XXXX</a>
+      <a href="mailto:info&#64;lplakphet.example">✉️<b>อีเมล</b>info&#64;lplakphet.example</a>
+      <a href="#contact">💬<b>LINE</b>&#64;LPLAKPHET</a>
+      <a href="#contact">📍<b>ที่อยู่</b>ใส่ที่อยู่ร้านของคุณ</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="f-grid">
+    <div><img src="logo.svg" alt="" class="logo-s"><h4>LP LAKPHET</h4><p>ที่อยู่ร้าน (ใส่ที่อยู่จริง)<br>โทร 0XX-XXX-XXXX</p></div>
+    <div><h4>เมนู</h4><a href="#top">หน้าหลัก</a><a href="#about">เกี่ยวกับเรา</a><a href="#shop">ร้านค้า</a><a href="#contact">ติดต่อเรา</a></div>
+    <div><h4>ข่าวสารและกิจกรรม</h4>@for (n of news.slice(0, 3); track n.t) { <a href="#news">{{ n.t }}</a> }</div>
+  </div>
+  <p class="copy">Copyright © 2026 LP LAKPHET · Your Style, Your Choice ♡</p>
+</footer>
+
+<button class="to-top" (click)="top()" aria-label="กลับขึ้นด้านบน">↑</button>
+
+@if (cookie()) {
+  <div class="cookie" role="dialog" aria-label="คุกกี้">
+    <p>เว็บไซต์นี้ใช้คุกกี้เพื่อประสบการณ์การใช้งานที่ดีขึ้น</p>
+    <button (click)="cookie.set(false)">ยอมรับ</button><button class="out" (click)="cookie.set(false)">ปฏิเสธ</button>
+  </div>
+}
+
+@if (cartOpen()) {
+  <div class="scrim" (click)="cartOpen.set(false)"></div>
+  <aside class="drawer" aria-label="ตะกร้าสินค้า">
+    <header><h3>ตะกร้าของคุณ</h3><button (click)="cartOpen.set(false)" aria-label="ปิด">✕</button></header>
+    @for (l of lines(); track l.p.id) {
+      <div class="line">
+        <span class="th" [style.--a]="l.p.tone[0]" [style.--b]="l.p.tone[1]">{{ l.p.emoji }}</span>
+        <div><b>{{ l.p.name }}</b><small>฿{{ price(l.p) | number }}</small></div>
+        <div class="qty"><button (click)="change(l.p.id, -1)" aria-label="ลดจำนวน">−</button><span>{{ l.qty }}</span><button (click)="change(l.p.id, 1)" aria-label="เพิ่มจำนวน">＋</button></div>
+      </div>
+    } @empty { <p class="empty">ตะกร้ายังว่างอยู่ เลือกสินค้าที่ชอบได้เลย</p> }
+    @if (count() > 0) {
+      <div class="sum"><span>รวมทั้งหมด</span><strong>฿{{ total() | number }}</strong></div>
+      <button class="btn wide" (click)="checkout()">สั่งซื้อสินค้า</button>
+    }
+  </aside>
+}
+@if (toast()) { <div class="toast" role="status">{{ toast() }}</div> }
